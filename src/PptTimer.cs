@@ -225,6 +225,7 @@ namespace PptTimer
             countdown = new Countdown(settings.DurationSeconds);
 
             Text = "PPT 演讲计时器";
+            Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             FormBorderStyle = FormBorderStyle.None;
             StartPosition = FormStartPosition.Manual;
             ClientSize = new Size(267, 86);
