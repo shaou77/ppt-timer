@@ -1,0 +1,6 @@
+dist/
+*.zip
+*.ini
+bin/
+obj/
+.vs/
