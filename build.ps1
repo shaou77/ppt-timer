@@ -20,25 +20,53 @@ function New-AppIcon {
     $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias
     $graphics.Clear([System.Drawing.Color]::Transparent)
 
+    $shadow = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(70, 0, 0, 0))
+    $graphics.FillEllipse($shadow, 8, 10, 50, 50)
+
     $bg = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
         [System.Drawing.Rectangle]::new(0, 0, 64, 64),
-        [System.Drawing.Color]::FromArgb(39, 68, 190),
-        [System.Drawing.Color]::FromArgb(73, 114, 255),
+        [System.Drawing.Color]::FromArgb(30, 53, 170),
+        [System.Drawing.Color]::FromArgb(70, 135, 255),
         45
     )
     $graphics.FillEllipse($bg, 4, 4, 56, 56)
 
-    $white = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
-    $graphics.FillEllipse($white, 17, 13, 30, 30)
+    $rim = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(245, 255, 255, 255), 2)
+    $graphics.DrawEllipse($rim, 6, 6, 52, 52)
 
-    $pen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(39, 68, 190), 4)
+    $shine = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
+        [System.Drawing.Rectangle]::new(10, 7, 44, 28),
+        [System.Drawing.Color]::FromArgb(150, 255, 255, 255),
+        [System.Drawing.Color]::FromArgb(0, 255, 255, 255),
+        90
+    )
+    $graphics.FillEllipse($shine, 10, 7, 44, 28)
+
+    $white = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::White)
+    $graphics.FillEllipse($white, 16, 13, 32, 32)
+
+    $faceRim = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(230, 222, 228, 255), 2)
+    $graphics.DrawEllipse($faceRim, 17, 14, 30, 30)
+
+    $tickPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(40, 68, 190), 2)
+    $graphics.DrawLine($tickPen, 32, 17, 32, 20)
+    $graphics.DrawLine($tickPen, 32, 38, 32, 41)
+    $graphics.DrawLine($tickPen, 20, 29, 23, 29)
+    $graphics.DrawLine($tickPen, 41, 29, 44, 29)
+
+    $pen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(255, 151, 45), 4)
     $pen.StartCap = [System.Drawing.Drawing2D.LineCap]::Round
     $pen.EndCap = [System.Drawing.Drawing2D.LineCap]::Round
-    $graphics.DrawLine($pen, 32, 28, 32, 19)
-    $graphics.DrawLine($pen, 32, 28, 39, 32)
+    $graphics.DrawLine($pen, 32, 29, 32, 20)
+    $graphics.DrawLine($pen, 32, 29, 40, 34)
 
-    $font = New-Object System.Drawing.Font('Segoe UI', 15, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
-    $graphics.DrawString('P', $font, $white, 23, 39)
+    $center = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 151, 45))
+    $graphics.FillEllipse($center, 29, 26, 6, 6)
+
+    $badge = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(255, 151, 45))
+    $graphics.FillEllipse($badge, 37, 38, 17, 17)
+    $font = New-Object System.Drawing.Font('Segoe UI', 12, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
+    $graphics.DrawString('P', $font, $white, 42, 39)
 
     $iconHandle = $bitmap.GetHicon()
     $appIcon = [System.Drawing.Icon]::FromHandle($iconHandle)
@@ -50,8 +78,15 @@ function New-AppIcon {
         $stream.Dispose()
         $appIcon.Dispose()
         $font.Dispose()
+        $badge.Dispose()
+        $center.Dispose()
         $pen.Dispose()
+        $tickPen.Dispose()
+        $faceRim.Dispose()
         $white.Dispose()
+        $shine.Dispose()
+        $rim.Dispose()
+        $shadow.Dispose()
         $bg.Dispose()
         $graphics.Dispose()
         $bitmap.Dispose()
